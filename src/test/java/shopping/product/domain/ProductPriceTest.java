@@ -25,9 +25,9 @@ public class ProductPriceTest {
     }
 
     @Test
-    void 가격이_0이면_예외가_발생하지_않는다() {
-        assertThatCode(() -> new ProductPrice(0))
-                .doesNotThrowAnyException();
+    void 가격이_0이면_예외가_발생한다() {
+        assertThatThrownBy(() -> new ProductPrice(0))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 
