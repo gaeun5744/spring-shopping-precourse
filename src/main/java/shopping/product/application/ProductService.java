@@ -1,5 +1,6 @@
 package shopping.product.application;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,5 +29,11 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NoSuchElementException("상품을 찾을 수 없습니다. id=" + productId));
         return ProductResponse.from(product);
+    }
+
+
+    public List<ProductResponse> findAll() {
+        List<Product> products = productRepository.findAll();
+        return ProductResponse.fromAll(products);
     }
 }

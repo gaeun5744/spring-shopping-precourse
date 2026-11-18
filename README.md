@@ -7,12 +7,12 @@
 
 # 기능 목록
 ## 상품
-- [ ] 상품을 조회한다
-  - [ ] GET /api/products/{productId}
-  - [ ] GET /api/products
-  - [ ] 상품에는 이름, 가격, 이미지 URL이 포함된다
-- [ ] 상품을 등록한다
-  - [ ] POST /api/products
+- [x] 상품을 조회한다
+  - [x] GET /api/products/{productId}
+  - [x] GET /api/products
+  - [x] 상품에는 이름, 가격, 이미지 URL이 포함된다
+- [x] 상품을 등록한다
+  - [x] POST /api/products
   - [ ] 유효성 검사를 한다
     - [x] 이름 유효성 검사 
       - [x] 상품 이름은 공백을 포함하여 15자까지 입력 가능

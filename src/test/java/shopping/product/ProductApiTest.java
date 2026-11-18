@@ -1,5 +1,6 @@
 package shopping.product;
 
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -49,5 +50,14 @@ class ProductApiTest {
     void 없는_상품을_조회하면_404를_반환한다() throws Exception {
         mockMvc.perform(get("/api/products/{productId}", 999_999))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void 상품_목록을_조회한다() throws Exception {
+        상품을_등록하면_201과_등록된_상품을_반환한다();
+        상품을_등록하면_201과_등록된_상품을_반환한다();
+
+        mockMvc.perform(get("/api/products"))
+                .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(2)));
     }
 }
