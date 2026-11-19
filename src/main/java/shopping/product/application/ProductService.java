@@ -42,6 +42,11 @@ public class ProductService {
         return ProductResponse.from(product);
     }
 
+    public void delete(Long productId) {
+        Product product = getProduct(productId);
+        productRepository.delete(product);
+    }
+
     private Product getProduct(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new NoSuchElementException("상품을 찾을 수 없습니다. id=" + productId));

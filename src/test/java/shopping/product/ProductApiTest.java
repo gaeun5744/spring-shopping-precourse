@@ -76,6 +76,14 @@ class ProductApiTest {
                 .andExpect(jsonPath("$.price").value(2000));
     }
 
+    @Test
+    void 상품을_삭제한다() throws Exception {
+        String location = 상품_등록("사과", 1000);
+
+        mockMvc.perform(delete(location))
+                .andExpect(status().isNoContent());
+    }
+
     private String 상품_등록(String name, int price) throws Exception {
         return mockMvc.perform(post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)

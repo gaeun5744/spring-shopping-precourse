@@ -24,8 +24,8 @@
       - [x] 가격은 숫자만 입력할 수 있다
 - [x] 상품을 수정한다
   - [x] PUT /api/products/{productId}
-- [ ] 상품을 삭제한다
-  - [ ] DELETE /api/products/{productId}
+- [x] 상품을 삭제한다
+  - [x] DELETE /api/products/{productId}
 
 ## 회원 가입 & 로그인
 - [ ] 회원가입
