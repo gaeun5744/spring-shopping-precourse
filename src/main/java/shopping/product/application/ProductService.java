@@ -8,6 +8,7 @@ import shopping.product.domain.Product;
 import shopping.product.domain.ProductRepository;
 import shopping.product.dto.ProductCreateRequest;
 import shopping.product.dto.ProductResponse;
+import shopping.product.dto.ProductUpdateRequest;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,14 +27,23 @@ public class ProductService {
     }
 
     public ProductResponse findById(Long productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NoSuchElementException("상품을 찾을 수 없습니다. id=" + productId));
-        return ProductResponse.from(product);
+        return ProductResponse.from(getProduct(productId));
     }
-
 
     public List<ProductResponse> findAll() {
         List<Product> products = productRepository.findAll();
         return ProductResponse.fromAll(products);
+    }
+
+    @Transactional
+    public ProductResponse update(Long productId, ProductUpdateRequest request) {
+        Product product = getProduct(productId);
+        product.update(request.toProductName(), request.toProductPrice(), request.imageUrl());
+        return ProductResponse.from(product);
+    }
+
+    private Product getProduct(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NoSuchElementException("상품을 찾을 수 없습니다. id=" + productId));
     }
 }

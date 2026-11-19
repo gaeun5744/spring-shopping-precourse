@@ -22,8 +22,8 @@
     - [x] 가격 유효성 검사
       - [x] 가격은 0을 초과해야한다
       - [x] 가격은 숫자만 입력할 수 있다
-- [ ] 상품을 수정한다
-  - [ ] PUT /api/products/{productId}
+- [x] 상품을 수정한다
+  - [x] PUT /api/products/{productId}
 - [ ] 상품을 삭제한다
   - [ ] DELETE /api/products/{productId}
 
