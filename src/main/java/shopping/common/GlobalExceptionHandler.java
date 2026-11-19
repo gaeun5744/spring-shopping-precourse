@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
+
+    @ExceptionHandler(ExternalApiException.class)
+    public ResponseEntity<ErrorResponse> handleExternalApiFailure(ExternalApiException exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
 }

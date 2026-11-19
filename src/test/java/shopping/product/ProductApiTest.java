@@ -1,6 +1,7 @@
 package shopping.product;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.mockito.BDDMockito.given;
 import static org.hamcrest.Matchers.hasValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import shopping.common.ExternalApiException;
+import shopping.product.domain.ProfanityChecker;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -20,6 +24,31 @@ class ProductApiTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private ProfanityChecker profanityChecker;
+
+    @Test
+    void 상품_이름에_비속어가_있으면_400을_반환한다() throws Exception {
+        given(profanityChecker.containsProfanity("badword")).willReturn(true);
+
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(상품_JSON("badword", 1000)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("상품 이름에 비속어를 포함할 수 없습니다."));
+    }
+
+    @Test
+    void 비속어_검사_API가_실패하면_500을_반환한다() throws Exception {
+        given(profanityChecker.containsProfanity("사과"))
+                .willThrow(new ExternalApiException("비속어 검사 서비스 호출에 실패했습니다.", null));
+
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(상품_JSON("사과", 1000)))
+                .andExpect(status().isInternalServerError());
+    }
 
     @Test
     void 상품을_등록하면_201과_등록된_상품을_반환한다() throws Exception {
