@@ -1,6 +1,7 @@
 package shopping.wish.ui;
 
 import java.util.List;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import shopping.auth.LoginMember;
 import shopping.wish.application.WishService;
@@ -41,5 +43,19 @@ public class WishController {
     public ResponseEntity<Void> delete(@LoginMember Long memberId, @PathVariable Long wishId) {
         wishService.delete(memberId, wishId);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> collectionOptions() {
+        return ResponseEntity.ok()
+                .allow(HttpMethod.GET, HttpMethod.HEAD, HttpMethod.POST, HttpMethod.OPTIONS)
+                .build();
+    }
+
+    @RequestMapping(value = "/{wishId}", method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> itemOptions() {
+        return ResponseEntity.ok()
+                .allow(HttpMethod.DELETE, HttpMethod.OPTIONS)
+                .build();
     }
 }

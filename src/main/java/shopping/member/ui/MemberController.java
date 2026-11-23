@@ -1,10 +1,12 @@
 package shopping.member.ui;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import shopping.member.application.MemberService;
 import shopping.member.dto.MemberRequest;
@@ -29,5 +31,12 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestBody MemberRequest request) {
         return ResponseEntity.ok(memberService.login(request));
+    }
+
+    @RequestMapping(value = {"/register", "/login"}, method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> options() {
+        return ResponseEntity.ok()
+                .allow(HttpMethod.POST, HttpMethod.OPTIONS)
+                .build();
     }
 }
